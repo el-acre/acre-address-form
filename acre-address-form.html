@@ -30,48 +30,59 @@ Example:
                 box-sizing: border-box;
             }
             
-            .container {
+            .address-form {
+                margin: 10px;
                 @apply(--layout-vertical);
+            }
+            
+            .map,
+            .address-form {
+                margin: 10px;
+                min-width: 400px;
             }
             
             google-map {
                 height: 300px;
-                margin-top: 20px;
             }
         </style>
         <!--http://maps.googleapis.com/maps/api/geocode/json?latlng=-22.9840853,-43.21223850000001&sensor=tru-->
 
-        <div class="container">
-            <paper-input class="flex" style="margin-right:10px" value="{{address.zip}}" minlength="7" on-change="_addressChanged" auto-validate
-            label="CEP"></paper-input>
+        <div class="layout horizontal wrap">
+            <div class="address-form flex">
+                <paper-input class="flex" style="margin-right:10px" value="{{address.zip}}" minlength="7" on-change="_addressChanged" auto-validate
+                label="CEP"></paper-input>
 
-            <div class="layout horizontal">
-                <paper-typeahead-input class="flex " style="margin-right:10px" local-candidates="[[_states]]" pt-item-select="_addressChanged"
-                placeholder="Estado" input-value="{{address.state}}" max-suggestions="4" on-pt-item-confirmed="_setCitiesList">
-                </paper-typeahead-input>
-                <paper-typeahead-input class="flex" style="margin-right:10px" local-candidates="[[_cities]]" pt-item-select="_addressChanged"
-                placeholder="Cidade" input-value="{{address.city}}" max-suggestions="4 ">
-                </paper-typeahead-input>
-            </div>
+                <div class="layout horizontal">
+                    <paper-typeahead-input class="flex " style="margin-right:10px" local-candidates="[[_states]]" pt-item-select="_addressChanged"
+                    placeholder="Estado" input-value="{{address.state}}" max-suggestions="4" on-pt-item-confirmed="_setCitiesList">
+                    </paper-typeahead-input>
+                    <paper-typeahead-input class="flex" style="margin-right:10px" local-candidates="[[_cities]]" pt-item-select="_addressChanged"
+                    placeholder="Cidade" input-value="{{address.city}}" max-suggestions="4 ">
+                    </paper-typeahead-input>
+                </div>
 
-            <paper-input class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" on-change="_addressChanged" label="Bairro"></paper-input>
+                <paper-input class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" on-change="_addressChanged" label="Bairro"></paper-input>
 
-            <div class="layout horizontal">
-                <paper-input class="flex" style="margin-right:10px" value="{{address.street}}" on-change="_addressChanged" label="Rua"></paper-input>
-                <div class="flex layout horizontal">
-                    <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
-                    <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
+                <div class="layout horizontal">
+                    <paper-input class="flex" style="margin-right:10px" value="{{address.street}}" on-change="_addressChanged" label="Rua"></paper-input>
+                    <div class="flex layout horizontal">
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
+                    </div>
                 </div>
             </div>
-
-            <google-map-search map="[[map]]" query="{{_addressQuery}}" results="{{results}}">
-            </google-map-search>
-            <google-map map="{{map}}" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}" zoom="15" disableZoom="true">
-                <google-map-marker id="marker" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}">
-                    <h2>{{marker.name}}</h2>
-                    <span>{{marker.formatted_address}}</span>
-                </google-map-marker>
-            </google-map>
+            <template is="dom-if" if={{!hideMap}}>
+                <div class="map flex">
+                    <google-map-search map="[[map]]" query="{{_addressQuery}}" results="{{results}}">
+                    </google-map-search>
+                    <google-map map="{{map}}" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}" zoom="15" disableZoom="true">
+                        <google-map-marker id="marker" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}">
+                            <h2>{{marker.name}}</h2>
+                            <span>{{marker.formatted_address}}</span>
+                        </google-map-marker>
+                    </google-map>
+                </div>
+            </template>
         </div>
     </template>
 
@@ -93,6 +104,11 @@ Example:
                         city: '',
                         state: '',
                     } },
+                },
+                
+                hideMap:{
+                    type: Boolean, 
+                    value: false
                 },
 
                 _addressQuery: {
