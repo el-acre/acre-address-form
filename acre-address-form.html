@@ -4,6 +4,7 @@
 <link rel="import" href="../paper-typeahead-input/paper-typeahead-input.html">
 <link rel="import" href="../google-map/google-map-search.html">
 <link rel="import" href="../google-map/google-map.html">
+<link rel="import" href="../geo-location/geo-location.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -31,14 +32,12 @@ Example:
             }
             
             .address-form {
-                margin: 10px;
                 @apply(--layout-vertical);
             }
             
             .map,
             .address-form {
-                margin: 10px;
-                min-width: 400px;
+                min-width: 300px;
             }
             
             google-map {
@@ -71,14 +70,14 @@ Example:
                     </div>
                 </div>
             </div>
+            <geo-location id="geoLocation" latitude="{{address.latitude}}" longitude="{{address.longitude}}"></geo-location>
+
             <template is="dom-if" if={{!hideMap}}>
                 <div class="map flex">
-                    <google-map-search map="[[map]]" query="{{_addressQuery}}" results="{{results}}">
+                    <google-map-search map="{{map}}" query="[[_addressQuery]]" on-google-map-search-results="_searchResults">
                     </google-map-search>
-                    <google-map map="{{map}}" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}" zoom="15" disableZoom="true">
-                        <google-map-marker id="marker" latitude="{{_mainPin.latitude}}" longitude="{{_mainPin.longitude}}">
-                            <h2>{{marker.name}}</h2>
-                            <span>{{marker.formatted_address}}</span>
+                    <google-map map="{{map}}" latitude="[[address.latitude]]" longitude="[[address.longitude]]" zoom="15" disableZoom="true">
+                        <google-map-marker id="marker" latitude="{{address.latitude}}" longitude="{{address.longitude}}">
                         </google-map-marker>
                     </google-map>
                 </div>
@@ -103,6 +102,8 @@ Example:
                         neighbourhood: '',
                         city: '',
                         state: '',
+                        latitude: 0,
+                        longitude: 0,
                     } },
                 },
                 
@@ -117,12 +118,6 @@ Example:
                     notify: true,
                 },
 
-                _mainPin: {
-                    type: Object,
-                    computed: '_calculateMapPin(results)',
-                    notify: true,
-                },
-                
                 _states :{
                     type: Array,
                     value: function(){
@@ -171,12 +166,13 @@ Example:
             },
             
             // Element Behavior
-            _calculateMapPin: function(results) {
-                if (results && results.length > 0 && results.length < 4) {
-
-                    this.formatedAddress = results[0].formatted_address;
-                    return results[0];
+            _searchResults: function(e) {
+                var results  = e.detail;
+                if (results && results.length > 0) {
+                    this.set("address.latitude",results[0].latitude)
+                    this.set("address.longitude",results[0].longitude)
                 }
+                
             },
     
             _calculateAddressQuery: function (address) {
@@ -208,7 +204,7 @@ Example:
             },
             _addressChanged: function(e){
                     console.log(e);
-                }
+           }
         });
 
         var states = [{
