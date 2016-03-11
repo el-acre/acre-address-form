@@ -9,23 +9,42 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>acre-address-form Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../acre-address-form.html">
-  </head>
-  <body unresolved>
+</head>
 
-    <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
+<body unresolved>
+    <template is="dom-bind" id="app">
 
-    <acre-address-form>
-    </acre-address-form>
+        <style is="custom-style">
+            ::shadow paper-input .input-content {
+                border: 1px solid #e5e5e5;
+                padding: 4px;
+            }
+            
+            ::shadow .paper-input-container-0 .underline.paper-input-container {
+                display: none;
+            }
+        </style>
 
-    <script>
-    
-    </script>
+        <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
 
-  </body>
+        <acre-address-form is-valid="{{isValid}}" address="{{address}}"></acre-address-form>
+        <p>Endereço Valido: [[isValid]]</p>
+        <p>IBGE:{{address.ibge_code}} </p>
+        <p>NUMERO:{{address.number}} </p>
+        <p>COMPLEMENT:{{address.complement}} </p>
+        <p>BAIRRO:{{address.neighbourhood}} </p>
+        <p>CIDADE :{{address.city}} </p>
+        <p>ESTADO :{{address.state}} </p>
+        <p>CEP :{{address.zip}} </p>
+    </template>
+
+</body>
+
 </html>
