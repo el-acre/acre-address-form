@@ -54,37 +54,37 @@ Example:
                 label="CEP"></paper-input>
 
                 <div class="layout horizontal">
-                     
-                     <paper-dropdown-menu class="flex" style="margin-right:10px" label="Estado" on-paper-dropdown-close="_addressChanged">
+
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Estado" on-paper-dropdown-close="_addressChanged">
                         <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.state}}">
                             <template is="dom-repeat" items="[[states]]" as="state">
                                 <paper-item item="[[state]]">{{state}}</paper-item>
                             </template>
-    </paper-listbox>
-    </paper-dropdown-menu>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
 
-    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Cidade" on-paper-dropdown-close="_addressChanged">
-        <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.city}}">
-            <template is="dom-repeat" items="[[cities]]" as="city">
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Cidade" on-paper-dropdown-close="_addressChanged">
+                        <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.city}}">
+                            <template is="dom-repeat" items="[[cities]]" as="city">
                                 <paper-item item="[[city]]">{{city}}</paper-item>
                             </template>
-        </paper-listbox>
-    </paper-dropdown-menu>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
 
-    </div>
+                </div>
 
-    <paper-input class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" on-change="_addressChanged" label="Bairro"></paper-input>
+                <paper-input class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" on-change="_addressChanged" label="Bairro"></paper-input>
 
-    <div class="layout horizontal">
-        <paper-input class="flex" style="margin-right:10px" value="{{address.street}}" on-change="_addressChanged" label="Rua"></paper-input>
-        <div class="flex layout horizontal">
-            <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
-            <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
-        </div>
-    </div>
-    </div>
+                <div class="layout horizontal">
+                    <paper-input class="flex" style="margin-right:10px" value="{{address.street}}" on-change="_addressChanged" label="Rua"></paper-input>
+                    <div class="flex layout horizontal">
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
+                    </div>
+                </div>
+            </div>
 
-    <template is="dom-if" if="{{!hideMap}}">
+            <template is="dom-if" if="{{!hideMap}}">
                 <div class="map flex">
                     <google-map-search map="{{map}}" query="[[_addressQuery]]" on-google-map-search-results="_onSearchResults">
                     </google-map-search>
@@ -94,7 +94,7 @@ Example:
                     </google-map>
                 </div>
             </template>
-    </div>
+        </div>
     </template>
 
     <script>
@@ -210,21 +210,6 @@ Example:
                     this.set("address.latitude", results[0].latitude);
                     this.set("address.longitude", results[0].longitude);
                 }
-            },
-
-            _onCitySelected: function(e) {
-                var currState = this.address.state;
-                var currCity = this.address.city;
-
-                var state = states.filter(function(elem) {
-                    return elem.n == currState;
-                })[0];
-
-                this.address.ibge_code = state.c.filter(function(elem) {
-                    return elem.n == currCity;
-                })[0].i;
-
-                console.log(this.address.ibge_code);
             },
 
             /**
