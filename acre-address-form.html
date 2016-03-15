@@ -134,7 +134,7 @@ Example:
 
                 isValid: {
                     type: Boolean,
-                    computed: '_validateAddress(address.*)',
+                    value : false
                 },
 
                 states: {
@@ -194,19 +194,6 @@ Example:
                 return result;
             },
 
-            _validateAddress: function(address) {
-                
-                var isValid = address.base.street &&
-                    address.base.neighbourhood &&
-                    address.base.city &&
-                    address.base.state &&
-                    address.base.zip;
-
-                if (isValid) {
-                    this.fire("ac-address-is-valid", true);
-                }
-            },
-
             // Private behaviors
             _onSearchResults: function(e) {
                 var results = e.detail;
@@ -233,6 +220,17 @@ Example:
                 this.fire("ac-address-changed", {
                     address: this.address
                 });
+                
+                var isValid = this.address.street &&
+                    this.address.neighbourhood &&
+                    this.address.city &&
+                    this.address.state &&
+                    this.address.zip;
+
+                if (isValid && this.isValid != isValid) {
+                    this.fire("ac-address-is-valid", true);
+                }
+                this.isValid = isValid;
             }
         });
     </script>
