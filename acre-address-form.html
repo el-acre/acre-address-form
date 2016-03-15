@@ -117,8 +117,7 @@ Example:
                             city: '',
                             state: '',
                             latitude: 0,
-                            longitude: 0,
-                            ibge_code: 0,
+                            longitude: 0
                         }
                     },
                 },
@@ -128,16 +127,14 @@ Example:
                     value: false
                 },
 
-                isValid: {
-                    type: Boolean,
-                    value: false,
-                    notify: true,
-                    conputed: '_validateAddress(address.*)'
+                _addressQuery: {
+                    type: String,
+                    computed: '_calculateAddressQuery(address.*)',
                 },
 
-                _addressQuery: {
-                    type: Object,
-                    computed: '_calculateAddressQuery(address.*)',
+                isValid: {
+                    type: Boolean,
+                    computed: '_validateAddress(address.*)',
                 },
 
                 states: {
@@ -185,17 +182,24 @@ Example:
 
             //computed properties
             _calculateAddressQuery: function(address) {
-                var result = address.base.street + ' ' + address.base.number + ' ' + address.base.complement + ' ' + address.base.neighbourhood + ' ' + address.base.city + ' ' + address.base.state + ' ' + address.base.zip + ' ' + "Brasil";
+                var result = address.base.street + ' ' 
+                            + address.base.number + ' ' 
+                            + address.base.complement + ' ' 
+                            + address.base.neighbourhood + ' ' 
+                            + address.base.city + ' ' 
+                            + address.base.state + ' ' 
+                            + address.base.zip + ' '
+                            + "Brasil";
 
                 return result;
             },
 
             _validateAddress: function(address) {
+                
                 var isValid = address.base.street &&
                     address.base.neighbourhood &&
                     address.base.city &&
                     address.base.state &&
-                    address.base.ibge_code &&
                     address.base.zip;
 
                 if (isValid) {
@@ -229,7 +233,6 @@ Example:
                 this.fire("ac-address-changed", {
                     address: this.address
                 });
-                console.log(this.address);
             }
         });
     </script>
