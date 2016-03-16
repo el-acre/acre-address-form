@@ -233,7 +233,7 @@ Example:
                 if (isValid && this.isValid != isValid) {
                     this.set("isValid", true);   
                     this.fire("ac-address-is-valid", true);
-                }else{
+                }else if(!isValid){
                     this.set("isValid", false);
                 }
             }
