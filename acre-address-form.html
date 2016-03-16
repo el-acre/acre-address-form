@@ -84,7 +84,7 @@ Example:
                 </div>
                 <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
             </div>
-            <p>[[isValid]]</p>
+            
             <template is="dom-if" if="{{!hideMap}}">
                 <div class="map flex">
                     <google-map-search map="{{map}}" query="[[_addressQuery]]" on-google-map-search-results="_onSearchResults">
