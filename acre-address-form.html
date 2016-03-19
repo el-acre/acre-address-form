@@ -50,8 +50,8 @@ Example:
 
         <div class="layout horizontal wrap">
             <div class="address-form flex">
-                <paper-input class="flex" style="margin-right:10px" value="{{address.zip}}" minlength="7" on-change="_addressChanged" auto-validate
-                label="CEP"></paper-input>
+                <paper-input id="zip" class="flex" style="margin-right:10px" value="{{address.zip}}" allowed-pattern="[0-9\-]" minlength="8"
+                maxlength="8" auto-validate required on-change="_addressChanged" label="CEP"></paper-input>
 
                 <div class="layout horizontal">
 
@@ -73,10 +73,12 @@ Example:
 
                 </div>
 
-                <paper-input class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" on-change="_addressChanged" label="Bairro"></paper-input>
+                <paper-input id="neighbourhood" class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" auto-validate required
+                on-change="_addressChanged" label="Bairro"></paper-input>
 
                 <div class="layout horizontal">
-                    <paper-input class="flex" style="margin-right:10px" value="{{address.street}}" on-change="_addressChanged" label="Rua"></paper-input>
+                    <paper-input id="street" class="flex" style="margin-right:10px" value="{{address.street}}" auto-validate required on-change="_addressChanged"
+                    label="Rua"></paper-input>
                     <div class="flex layout horizontal">
                         <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
                         <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
@@ -84,7 +86,7 @@ Example:
                 </div>
                 <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
             </div>
-            
+
             <template is="dom-if" if="{{!hideMap}}">
                 <div class="map flex">
                     <google-map-search map="{{map}}" query="[[_addressQuery]]" on-google-map-search-results="_onSearchResults">
@@ -224,11 +226,7 @@ Example:
                     address: this.address
                 });
                 
-                var isValid = this.address.street != '' &&
-                    this.address.neighbourhood != '' &&
-                    this.address.city != '' &&
-                    this.address.state != '' &&
-                    this.address.zip != '';
+                var isValid =this.validate();
 
                 if (isValid && this.isValid != isValid) {
                     this.set("isValid", true);   
@@ -236,7 +234,24 @@ Example:
                 }else if(!isValid){
                     this.set("isValid", false);
                 }
-            }
+            },
+            
+            /** Events */
+            
+            /**
+             * Validate()
+             * validate the data highlighting the errors!
+             *
+             */
+            validate: function(){
+                var isValid = this.$.zip.validate() && this.address.zip != '' &&
+                    this.$.neighbourhood.validate() && this.address.neighbourhood != '' && 
+                    this.$.address.validate() && this.address.street != ''  &&
+                    this.address.city != '' && 
+                    this.address.state != '';
+              
+                    return isValid;
+            },
         });
     </script>
 </dom-module>

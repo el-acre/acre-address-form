@@ -32,6 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
+    <p>Validate Form! <button id="validateBtn">Validate</button></p>
 
     <acre-address-form id="address-form"></acre-address-form>
 
@@ -16870,6 +16871,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     addressForm.cities = [];
             }
         });
+        
+        document.querySelector('#validateBtn').addEventListener('click', function() {
+         var isValid = addressForm.validate();
+         alert("valid: " + isValid);
+      });
+
     </script>
 </body>
 
