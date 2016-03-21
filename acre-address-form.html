@@ -246,7 +246,7 @@ Example:
             validate: function(){
                 var isValid = this.$.zip.validate() && this.address.zip != '' &&
                     this.$.neighbourhood.validate() && this.address.neighbourhood != '' && 
-                    this.$.address.validate() && this.address.street != ''  &&
+                    this.$.street.validate() && this.address.street != ''  &&
                     this.address.city != '' && 
                     this.address.state != '';
               
