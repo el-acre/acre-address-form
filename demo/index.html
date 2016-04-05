@@ -16,25 +16,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>acre-address-form Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../acre-address-form.html">
+    <link rel="import" href="../metheora-styles.html">
 </head>
 
 <body unresolved>
 
-    <style is="custom-style">
-        /*::shadow paper-input .input-content {
-            border: 1px solid #e5e5e5;
-            padding: 4px;
-        }
-        
-        ::shadow .paper-input-container-0 .underline.paper-input-container {
-            display: none;
-        }*/
-    </style>
+    <style is="custom-style" include="metheora-input"></style>
 
     <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
     <p>Validate Form! <button id="validateBtn">Validate</button></p>
 
-    <acre-address-form id="address-form"></acre-address-form>
+    <acre-address-form class="metheora-input" id="address-form"></acre-address-form>
 
     <script>
         states = [{

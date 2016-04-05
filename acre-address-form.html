@@ -7,7 +7,6 @@
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 
-
 <!--
 An element providing a solution to no problem in particular.
 
@@ -36,6 +35,49 @@ Example:
             
             .address-form {
                 @apply(--layout-vertical);
+            }
+            
+            paper-input,
+            paper-dropdown-menu,
+            gold-cc-input,
+            gold-cc-expiration-input,
+            gold-cc-cvc-input {
+                --paper-input-container: {
+                    @apply(--acre-input-container);
+                }
+                --paper-input-container-input: {
+                    @apply(--acre-input-container-input);
+                }
+                --paper-input-container-label: {
+                    @apply(--acre-input-container-label);
+                }
+                --paper-input-container-input: {
+                    @apply(--acre-input-container-input);
+                }
+                --paper-input-container-underline: {
+                    @apply(--acre-input-container-underline);
+                }
+                --paper-input-container-underline-focus: {
+                    @apply(--acre-input-container-underline-focus);
+                }
+            }
+            
+            paper-dropdown-menu {
+                --paper-dropdown-menu: {
+                    @apply(--acre-dropdown-menu);
+                }
+                --paper-dropdown-menu-icon: {
+                    @apply(--acre-dropdown-menu-icon);
+                }
+                --paper-dropdown-menu-ripple: {
+                    @apply(--acre-dropdown-menu-ripple);
+                }
+                --paper-input-container-underline: {
+                    @apply(--acre-input-dropdown-container-underline);
+                }
+                --paper-input-container-underline-focus: {
+                   @apply(--acre-dropdown-input-container-underline-focus);
+                }
             }
             
             .map,

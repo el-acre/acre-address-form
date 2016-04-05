@@ -1,0 +1,57 @@
+<!--
+A set of layout classes that let you specify layout properties directly in markup.
+You must include this file in every element that needs to use them.
+
+Sample use:
+
+    <link rel="import" href="../metheora-styles/metheora-styles.html">
+    <style is="custom-style" include="metheora-input"></style>
+
+The following imports are available:
+ - metheora-input
+-->
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="metheora-input">
+    <template>
+        <style>
+            .metheora-input {
+                --acre-input-container: {
+                    padding: 0;
+                    margin: 10px 5px;
+                }
+                --acre-input-container-input: {
+                    border: 1px solid #e5e5e5;
+                    padding: 10px 0;
+                    padding-left: 10px;
+                }
+                --acre-input-container-label: {
+                    padding: 10px 10px;
+                }
+                --acre-input-container-underline: {
+                    margin-right: -10px;
+                }
+                --acre-input-container-underline-focus: {
+                    margin-right: -10px;
+                }
+            
+                --acre-dropdown-menu-icon: {
+                    margin-left: 10px;
+                    margin-right: -10px;
+                }
+                --acre-dropdown-menu-ripple: {
+                    margin-top: 10px;
+                    margin-left: 6px;
+                    margin-right: 17px;
+                    margin-bottom: -6px;
+                }
+                --acre-input-dropdown-container-underline: {
+                    margin-right: 12px;
+                }
+                --acre-input-dropdown-container-underline-focus: {
+                    margin-right: 12px;
+                }
+            }
+        </style>
+    </template>
+</dom-module>
