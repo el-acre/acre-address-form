@@ -53,49 +53,6 @@ Example:
                 width: 100%;
                 @apply(--acre-address-map);
             }
-            
-            paper-input,
-            paper-dropdown-menu,
-            gold-cc-input,
-            gold-cc-expiration-input,
-            gold-cc-cvc-input {
-                --paper-input-container: {
-                    @apply(--acre-input-container);
-                }
-                --paper-input-container-input: {
-                    @apply(--acre-input-container-input);
-                }
-                --paper-input-container-label: {
-                    @apply(--acre-input-container-label);
-                }
-                --paper-input-container-input: {
-                    @apply(--acre-input-container-input);
-                }
-                --paper-input-container-underline: {
-                    @apply(--acre-input-container-underline);
-                }
-                --paper-input-container-underline-focus: {
-                    @apply(--acre-input-container-underline-focus);
-                }
-            }
-            
-            paper-dropdown-menu {
-                --paper-dropdown-menu: {
-                    @apply(--acre-dropdown-menu);
-                }
-                --paper-dropdown-menu-icon: {
-                    @apply(--acre-dropdown-menu-icon);
-                }
-                --paper-dropdown-menu-ripple: {
-                    @apply(--acre-dropdown-menu-ripple);
-                }
-                --paper-input-container-underline: {
-                    @apply(--acre-input-dropdown-container-underline);
-                }
-                --paper-input-container-underline-focus: {
-                    @apply(--acre-dropdown-input-container-underline-focus);
-                }
-            }
         </style>
 
         <div class="layout horizontal wrap">
@@ -135,6 +92,10 @@ Example:
                     </div>
                 </div>
                 <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
+
+                <div class="flex" style="margin-right:10px">
+                    <content></content>
+                </div>
             </div>
 
             <template is="dom-if" if="{{!hideMap}}">
