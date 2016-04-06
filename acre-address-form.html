@@ -33,8 +33,25 @@ Example:
                 box-sizing: border-box;
             }
             
+            .container {
+                @apply(--layout-horizontal);
+            }
+            
             .address-form {
                 @apply(--layout-vertical);
+            }
+            
+            .map,
+            .address-form {
+                padding: 10px;
+                min-width: 360px;
+                @apply(--layout-flex);
+                @apply(--layout-self-stretch);
+            }
+            
+            google-map {
+                width: 100%;
+                @apply(--acre-address-map);
             }
             
             paper-input,
@@ -76,17 +93,8 @@ Example:
                     @apply(--acre-input-dropdown-container-underline);
                 }
                 --paper-input-container-underline-focus: {
-                   @apply(--acre-dropdown-input-container-underline-focus);
+                    @apply(--acre-dropdown-input-container-underline-focus);
                 }
-            }
-            
-            .map,
-            .address-form {
-                min-width: 340px;
-            }
-            
-            google-map {
-                height: 340px;
             }
         </style>
 
