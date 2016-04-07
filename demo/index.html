@@ -15,12 +15,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>acre-address-form Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script type="text/javascript">
+        window.Polymer = {
+            dom: 'shadow',
+            lazyRegister: false
+        };
+    </script>
     <link rel="import" href="../acre-address-form.html">
     <link rel="import" href="../metheora-styles.html">
 </head>
 
 <body unresolved>
 
+    <style is="custom-style" include="metheora-input"></style>
     <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
     <p>Validate Form!
         <button id="validateBtn">Validate</button>
@@ -31,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </acre-address-form>
 
     <script>
-        states = [{
+        var states = [{
             "s": "RO",
             "n": "Rondônia",
             "c": [{
@@ -16836,39 +16843,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }]
         }]
 
+    window.addEventListener('WebComponentsReady', function(e) {
+            var addressForm = document.getElementById("address-form");
 
-        var addressForm = document.getElementById("address-form");
-
-        addressForm.states = states.reduce(function(curr, prev) {
-            curr.push(prev.n);
-            return curr;
-        }, []);
+            addressForm.states = states.reduce(function(curr, prev) {
+                curr.push(prev.n);
+                return curr;
+            }, []);
 
 
-        var state = "";
-        addressForm.addEventListener("ac-address-changed", function(e) {
+            var state = "";
+            addressForm.addEventListener("ac-address-changed", function(e) {
 
-            //change the list of cities
-            var newState = e.detail.address.state;
-            if (newState != state) {
+                //change the list of cities
+                var newState = e.detail.address.state;
+                if (newState != state) {
 
-                state = newState;
-                var selectedStates = states.filter(function(elem) {
-                    return elem.n == state;
-                });
-
-                if (selectedStates.length > 0)
-                    addressForm.cities = selectedStates[0].c.map(function(x) {
-                        return x.n
+                    state = newState;
+                    var selectedStates = states.filter(function(elem) {
+                        return elem.n == state;
                     });
-                else
-                    addressForm.cities = [];
-            }
+
+                    if (selectedStates.length > 0)
+                        addressForm.cities = selectedStates[0].c.map(function(x) {
+                            return x.n
+                        });
+                    else
+                        addressForm.cities = [];
+                }
+            });
+            
+            document.querySelector('#validateBtn').addEventListener('click', function() {
+            var isValid = addressForm.validate();
+            alert("valid: " + isValid);
         });
-        
-        document.querySelector('#validateBtn').addEventListener('click', function() {
-         var isValid = addressForm.validate();
-         alert("valid: " + isValid);
       });
     </script>
 </body>
