@@ -32,15 +32,15 @@ Example:
                 display: block;
                 box-sizing: border-box;
             }
-            
+
             .container {
                 @apply(--layout-horizontal);
             }
-            
+
             .address-form {
                 @apply(--layout-vertical);
             }
-            
+
             .map,
             .address-form {
                 padding: 10px;
@@ -48,64 +48,26 @@ Example:
                 @apply(--layout-flex);
                 @apply(--layout-self-stretch);
             }
-            
+
             google-map {
                 width: 100%;
                 @apply(--acre-address-map);
             }
-            
-            paper-input,
-            paper-dropdown-menu,
-            gold-cc-input,
-            gold-cc-expiration-input,
-            gold-cc-cvc-input {
-                --paper-input-container: {
-                    @apply(--acre-input-container);
-                }
-                --paper-input-container-input: {
-                    @apply(--acre-input-container-input);
-                }
-                --paper-input-container-label: {
-                    @apply(--acre-input-container-label);
-                }
-                --paper-input-container-input: {
-                    @apply(--acre-input-container-input);
-                }
-                --paper-input-container-underline: {
-                    @apply(--acre-input-container-underline);
-                }
-                --paper-input-container-underline-focus: {
-                    @apply(--acre-input-container-underline-focus);
-                }
-            }
-            
+
             paper-dropdown-menu {
-                --paper-dropdown-menu: {
-                    @apply(--acre-dropdown-menu);
-                }
-                --paper-dropdown-menu-icon: {
-                    @apply(--acre-dropdown-menu-icon);
-                }
-                --paper-dropdown-menu-ripple: {
-                    @apply(--acre-dropdown-menu-ripple);
-                }
-                --paper-input-container-underline: {
-                    @apply(--acre-input-container-underline);
-                }
-                --paper-input-container-underline-focus: {
-                   @apply(--acre-input-container-underline-focus);
+                --paper-input-container-input: {
+                    @apply(--acre-input-container-input);
                 }
             }
         </style>
 
         <div class="layout horizontal wrap">
             <div class="address-form flex">
-                <paper-input id="zip" class="flex" style="margin-right:10px" value="{{address.zip}}" allowed-pattern="[0-9\-]" minlength="8"
-                maxlength="8" auto-validate required on-change="_addressChanged" label="CEP"></paper-input>
+                <paper-input id="zip" class="flex" style="margin-right:10px" value="{{address.zip}}" allowed-pattern="[0-9\-]" minlength="8" maxlength="8" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="CEP"></paper-input>
 
                 <div class="layout horizontal">
 
-                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Estado" on-paper-dropdown-close="_addressChanged">
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Estado" always-float-label="[[alwaysFloatLabel]]" on-paper-dropdown-close="_addressChanged">
                         <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.state}}">
                             <template is="dom-repeat" items="[[states]]" as="state">
                                 <paper-item item="[[state]]">{{state}}</paper-item>
@@ -113,7 +75,7 @@ Example:
                         </paper-listbox>
                     </paper-dropdown-menu>
 
-                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Cidade" on-paper-dropdown-close="_addressChanged">
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Cidade" always-float-label="[[alwaysFloatLabel]]" on-paper-dropdown-close="_addressChanged">
                         <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.city}}">
                             <template is="dom-repeat" items="[[cities]]" as="city">
                                 <paper-item item="[[city]]">{{city}}</paper-item>
@@ -123,19 +85,17 @@ Example:
 
                 </div>
 
-                <paper-input id="neighbourhood" class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" auto-validate required
-                on-change="_addressChanged" label="Bairro"></paper-input>
+                <paper-input id="neighbourhood" class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Bairro"></paper-input>
 
                 <div class="layout horizontal">
-                    <paper-input id="street" class="flex" style="margin-right:10px" value="{{address.street}}" auto-validate required on-change="_addressChanged"
-                    label="Rua"></paper-input>
+                    <paper-input id="street" class="flex" style="margin-right:10px" value="{{address.street}}" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Rua"></paper-input>
                     <div class="flex layout horizontal">
-                        <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" on-change="_addressChanged" label="Número"></paper-input>
-                        <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" on-change="_addressChanged" label="Complemento"></paper-input>
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Número"></paper-input>
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Complemento"></paper-input>
                     </div>
                 </div>
-                <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
-            
+                <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
+
                 <div class="flex" style="margin-right:10px">
                     <content></content>
                 </div>
@@ -185,14 +145,9 @@ Example:
                     value: false
                 },
 
-                _addressQuery: {
-                    type: String,
-                    computed: '_calculateAddressQuery(address.*)',
-                },
-
                 isValid: {
                     type: Boolean,
-                    value : false,
+                    value: false,
                     notify: true,
                 },
 
@@ -210,6 +165,17 @@ Example:
                         return [];
                     }
                 },
+
+                alwaysFloatLabel: {
+                    type: Boolean,
+                    value: false
+                },
+
+                _addressQuery: {
+                    type: String,
+                    computed: '_calculateAddressQuery(address.*)',
+                },
+
             },
 
             // Element Lifecycle
@@ -241,14 +207,8 @@ Example:
 
             //computed properties
             _calculateAddressQuery: function(address) {
-                var result = address.base.street + ' ' 
-                            + address.base.number + ' ' 
-                            + address.base.complement + ' ' 
-                            + address.base.neighbourhood + ' ' 
-                            + address.base.city + ' ' 
-                            + address.base.state + ' ' 
-                            + address.base.zip + ' '
-                            + "Brasil";
+                var result = address.base.street + ' ' + address.base.number + ' ' + address.base.complement + ' ' + address.base.neighbourhood + ' ' + address.base.city + ' ' + address.base.state + ' ' + address.base.zip + ' ' +
+                    "Brasil";
 
                 return result;
             },
@@ -279,32 +239,32 @@ Example:
                 this.fire("ac-address-changed", {
                     address: this.address
                 });
-                
-                var isValid =this.validate();
+
+                var isValid = this.validate();
 
                 if (isValid && this.isValid != isValid) {
-                    this.set("isValid", true);   
+                    this.set("isValid", true);
                     this.fire("ac-address-is-valid", true);
-                }else if(!isValid){
+                } else if (!isValid) {
                     this.set("isValid", false);
                 }
             },
-            
+
             /** Events */
-            
+
             /**
              * Validate()
              * validate the data highlighting the errors!
              *
              */
-            validate: function(){
+            validate: function() {
                 var isValid = this.$.zip.validate() && this.address.zip != '' &&
-                    this.$.neighbourhood.validate() && this.address.neighbourhood != '' && 
-                    this.$.street.validate() && this.address.street != ''  &&
-                    this.address.city != '' && 
+                    this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
+                    this.$.street.validate() && this.address.street != '' &&
+                    this.address.city != '' &&
                     this.address.state != '';
-              
-                    return isValid;
+
+                return isValid;
             },
         });
     </script>
