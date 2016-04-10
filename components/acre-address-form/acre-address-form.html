@@ -1,0 +1,281 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../google-map/google-map-search.html">
+<link rel="import" href="../google-map/google-map.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+
+<!--
+An element providing a form to fill a address.
+
+Example:
+
+    <acre-address-form></acre-address-form>
+
+Example:
+
+    <acre-address-form hide-map>
+    </acre-address-form>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--acre-input-container-input` | Mixin to be applied to the   paper-dropdown-menu-input-container | `{}
+
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="acre-address-form">
+    <!-- import classes in an element -->
+    <template>
+        <style include="iron-flex iron-flex-alignment" />
+        <style>
+            :host {
+                display: block;
+                box-sizing: border-box;
+            }
+
+            .container {
+                @apply(--layout-horizontal);
+            }
+
+            .address-form {
+                @apply(--layout-vertical);
+            }
+
+            .map,
+            .address-form {
+                padding: 10px;
+                min-width: 360px;
+                @apply(--layout-flex);
+                @apply(--layout-self-stretch);
+            }
+
+            google-map {
+                width: 100%;
+                min-height: 360px;
+                @apply(--acre-address-map);
+            }
+
+            paper-dropdown-menu {
+                --paper-input-container-input: {
+                    @apply(--acre-input-container-input);
+                }
+            }
+        </style>
+
+        <div class="layout horizontal wrap">
+            <div class="address-form flex">
+                <paper-input id="zip" class="flex" style="margin-right:10px" value="{{address.zip}}" allowed-pattern="[0-9\-]" minlength="8" maxlength="8" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="CEP"></paper-input>
+
+                <div class="layout horizontal">
+
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Estado" always-float-label="[[alwaysFloatLabel]]" on-paper-dropdown-close="_addressChanged">
+                        <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.state}}">
+                            <template is="dom-repeat" items="[[states]]" as="state">
+                                <paper-item item="[[state]]">{{state}}</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+
+                    <paper-dropdown-menu class="flex" style="margin-right:10px" label="Cidade" always-float-label="[[alwaysFloatLabel]]" on-paper-dropdown-close="_addressChanged">
+                        <paper-listbox class="dropdown-content" attr-for-selected="item" selected="{{address.city}}">
+                            <template is="dom-repeat" items="[[cities]]" as="city">
+                                <paper-item item="[[city]]">{{city}}</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+
+                </div>
+
+                <paper-input id="neighbourhood" class="flex" style="margin-right:10px" value="{{address.neighbourhood}}" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Bairro"></paper-input>
+
+                <div class="layout horizontal">
+                    <paper-input id="street" class="flex" style="margin-right:10px" value="{{address.street}}" auto-validate required always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Rua"></paper-input>
+                    <div class="flex layout horizontal">
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.number}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Número"></paper-input>
+                        <paper-input class="flex" style="margin-right:10px" value="{{address.complement}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Complemento"></paper-input>
+                    </div>
+                </div>
+                <paper-input class="flex" style="margin-right:10px" value="{{address.reference}}" always-float-label="[[alwaysFloatLabel]]" on-change="_addressChanged" label="Ponto de Referência"></paper-input>
+
+                <div class="flex" style="margin-right:10px">
+                    <content></content>
+                </div>
+            </div>
+
+            <template is="dom-if" if="{{!hideMap}}">
+                <div class="map flex">
+                    <google-map-search map="{{map}}" query="[[_addressQuery]]" on-google-map-search-results="_onSearchResults">
+                    </google-map-search>
+                    <google-map map="{{map}}" latitude="[[address.latitude]]" longitude="[[address.longitude]]" zoom="15" disableZoom="true">
+                        <google-map-marker id="marker" latitude="{{address.latitude}}" longitude="{{address.longitude}}">
+                        </google-map-marker>
+                    </google-map>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'acre-address-form',
+
+            properties: {
+
+                address: {
+                    type: Object,
+                    notify: true,
+                    value: function() {
+                        return {
+                            zip: '',
+                            street: '',
+                            address: '',
+                            number: '',
+                            complement: '',
+                            neighbourhood: '',
+                            city: '',
+                            state: '',
+                            reference: '',
+                            latitude: 0,
+                            longitude: 0
+                        }
+                    },
+                },
+
+                hideMap: {
+                    type: Boolean,
+                    value: false
+                },
+
+                isValid: {
+                    type: Boolean,
+                    value: false,
+                    notify: true,
+                },
+
+                states: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    }
+                },
+
+                cities: {
+                    type: Array,
+                    notify: true,
+                    value: function() {
+                        return [];
+                    }
+                },
+
+                alwaysFloatLabel: {
+                    type: Boolean,
+                    value: false
+                },
+
+                _addressQuery: {
+                    type: String,
+                    computed: '_calculateAddressQuery(address.*)',
+                },
+
+            },
+
+            // Element Lifecycle
+
+            ready: function() {
+                // `ready` is called after all elements have been configured, but
+                // propagates bottom-up. This element's children are ready, but parents
+                // are not.
+                //
+                // This is the point where you should make modifications to the DOM (when
+                // necessary), or kick off any processes the element wants to perform.
+            },
+
+            attached: function() {
+                // `attached` fires once the element and its parents have been inserted
+                // into a document.
+                //
+                // This is a good place to perform any work related to your element's
+                // visual state or active behavior (measuring sizes, beginning animations,
+                // loading resources, etc).
+            },
+
+            detached: function() {
+                // The analog to `attached`, `detached` fires when the element has been
+                // removed from a document.
+                //
+                // Use this to clean up anything you did in `attached`.
+            },
+
+            //computed properties
+            _calculateAddressQuery: function(address) {
+                var result = address.base.street + ' ' + address.base.number + ' ' + address.base.complement + ' ' + address.base.neighbourhood + ' ' + address.base.city + ' ' + address.base.state + ' ' + address.base.zip + ' ' +
+                    "Brasil";
+
+                return result;
+            },
+
+            // Private behaviors
+            _onSearchResults: function(e) {
+                var results = e.detail;
+                if (results && results.length > 0) {
+                    this.set("address.latitude", results[0].latitude);
+                    this.set("address.longitude", results[0].longitude);
+                }
+            },
+
+            /**
+             * The `ac-address-is-valid` event is fired when the address becomes valid
+             *
+             * @event ac-address-is-valid
+             * @detail {{address: address}}
+             */
+
+            /**
+             * The `ac-address-changed` event is fired whenever an property inside the address object changes
+             *
+             * @event ac-address-changed
+             * @detail {{address: address}}
+             */
+            _addressChanged: function(e) {
+                this.fire("ac-address-changed", {
+                    address: this.address
+                });
+
+                var isValid = this.validate();
+
+                if (isValid && this.isValid != isValid) {
+                    this.set("isValid", true);
+                    this.fire("ac-address-is-valid", true);
+                } else if (!isValid) {
+                    this.set("isValid", false);
+                }
+            },
+
+            /** Events */
+
+            /**
+             * Validate()
+             * validate the data highlighting the errors!
+             *
+             */
+            validate: function() {
+                var isValid = this.$.zip.validate() && this.address.zip != '' &&
+                    this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
+                    this.$.street.validate() && this.address.street != '' &&
+                    this.address.city != '' &&
+                    this.address.state != '';
+
+                return isValid;
+            },
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,40 @@
+{
+  "name": "acre-address-form",
+  "authors": [
+    "Victor Hugo Marques <victorhm@outlook.com>"
+  ],
+  "description": "An element to create an address form.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "acre-address-form.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/victorhugom/acre-address-form/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "google-map": "GoogleWebComponents/google-map#^1.1.10",
+    "paper-input": "PolymerElements/paper-input#^1.1.5",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.1.3",
+    "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
+    "paper-item": "PolymerElements/paper-item#^1.1.4"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  },
+  "_release": "cc2a211fd8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "cc2a211fd859840145622960b76c729acbaf3cb8"
+  },
+  "_source": "git@github.com:victorhugom/acre-address-form.git",
+  "_target": "master",
+  "_originalSource": "git@github.com:victorhugom/acre-address-form",
+  "_direct": true
+}
