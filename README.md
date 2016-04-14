@@ -3,11 +3,9 @@
 An element to create address form
 
 # Todo:
-[ ] Prepare for ocalization
-
-[ ] Localization PT
-
-[ ] Localization EN
+- [] Prepare for Localization
+- [] Localization PT
+- [] Localization EN
 
 ## Dependencies
 
