@@ -244,8 +244,14 @@ Custom property | Description | Default
 
             //computed properties
             _calculateAddressQuery: function(address) {
-                var result = address.base.street + ' ' + address.base.number + ' ' + address.base.complement + ' ' + address.base.neighbourhood + ' ' + address.base.city + ' ' + address.base.state + ' ' + address.base.zip + ' ' +
-                    "Brasil";
+                var result = (address.base.street || '') + ' ' +
+                            (address.base.number || '') + ' ' +
+                            (address.base.complement || '') + ' ' +
+                            (address.base.neighbourhood || '') + ' ' +
+                            (address.base.city || '') + ' ' +
+                            (address.base.state || '') + ' ' +
+                            (address.base.zip + ' ') +
+                   "Brasil";
 
                 return result;
             },
