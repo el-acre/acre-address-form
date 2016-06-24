@@ -25,8 +25,8 @@
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
     "paper-item": "PolymerElements/paper-item#^1.1.4",
     "vaadin-combo-box": "^1.0.1",
-    "vanilla-masker": "^1.1.0",
-    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
+    "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^1.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"

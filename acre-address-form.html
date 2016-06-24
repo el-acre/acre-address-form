@@ -18,8 +18,8 @@
     href="../iron-media-query/iron-media-query.html">
 <link rel="import"
     href="../vaadin-combo-box/vaadin-combo-box.html">
-    <script src="../vanilla-masker.min.js"></script>
-
+<link rel="import"
+    href="zip-input.html">
 
 <!--
 An element providing a form to fill a address.
@@ -52,7 +52,7 @@ Custom property | Description | Default
 <dom-module id="acre-address-form">
     <!-- import classes in an element -->
     <template>
-        <style include="iron-flex iron-flex-alignment acre-select" />
+        <style include="iron-flex iron-flex-alignment" />
         <style>
             :host {
                 display: block;
@@ -72,8 +72,8 @@ Custom property | Description | Default
                 @apply(--layout-flex)
             }
 
-            .bigScreen{
-              width: 50%;
+            .bigScreen {
+                width: 50%;
             }
 
             google-map {
@@ -87,27 +87,28 @@ Custom property | Description | Default
             }
         </style>
 
-        <iron-media-query query="min-width: 767px" query-matches="{{bigScreen}}"></iron-media-query>
+        <iron-media-query query="min-width: 767px"
+            query-matches="{{bigScreen}}"></iron-media-query>
 
         <div class="layout horizontal wrap">
-             <form class$="address-form {{_shouldShowSideBySide}}">
+            <form class$="address-form {{_shouldShowSideBySide}}">
 
                 <div class="layout horizontal">
 
-                    <paper-input id="zip"
+                    <zip-input id="zip"
                         class="flex"
+                        style="margin-right: 10px;"
                         autocomplete="shipZip"
                         name="shipZip"
                         style="margin-right:10px"
-                        value="{{address.zip}}"
-                        allowed-pattern="[0-9\-]"
                         minlength="8"
                         maxlength="8"
                         auto-validate
                         required
                         always-float-label="[[alwaysFloatLabel]]"
                         on-change="_addressChanged"
-                        label="CEP"></paper-input>
+                        label="CEP"
+                        value="{{address.zip}}"></zip-input>
 
                     <vaadin-combo-box label="Estado"
                         class="flex"
@@ -361,10 +362,10 @@ Custom property | Description | Default
             },
 
             /**
-            * Check if should show map and address form side by side
-            */
-            _computeShouldShowSideBySide: function(bigScreen){
-                if(bigScreen){
+             * Check if should show map and address form side by side
+             */
+            _computeShouldShowSideBySide: function(bigScreen) {
+                if (bigScreen) {
                     return 'bigScreen';
                 }
                 return '';
@@ -406,7 +407,7 @@ Custom property | Description | Default
              *
              */
             validate: function() {
-                var isValid = this.$.zip.validate() && this.address.zip != '' &&
+                var isValid = this.address && this.$.zip.validate() && this.address.zip != '' &&
                     this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
                     this.$.street.validate() && this.address.street != '' &&
                     this.address.city != '' &&
