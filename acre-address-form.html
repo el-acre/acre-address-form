@@ -72,7 +72,7 @@ Custom property | Description | Default
                 @apply(--layout-flex)
             }
 
-            .bigScreen {
+            .big-screen {
                 width: 50%;
             }
 
@@ -91,9 +91,9 @@ Custom property | Description | Default
             query-matches="{{bigScreen}}"></iron-media-query>
 
         <div class="layout horizontal wrap">
-            <form class$="address-form {{_shouldShowSideBySide}}">
+            <form class$="address-form {{_container}}">
 
-                <div class="layout horizontal">
+                <div class$="{{_cssRow}}">
 
                     <zip-input id="zip"
                         class="flex"
@@ -130,19 +130,23 @@ Custom property | Description | Default
 
                 </div>
 
-                <paper-input id="neighbourhood"
-                    class="flex"
-                    name="shipRegion"
-                    autocomplete="shipRegion"
-                    style="margin-right:10px"
-                    value="{{address.neighbourhood}}"
-                    auto-validate
-                    required
-                    always-float-label="[[alwaysFloatLabel]]"
-                    on-change="_addressChanged"
-                    label="Bairro"></paper-input>
+                <div class$="{{_cssRow}}">
 
-                <div class="layout horizontal">
+                    <paper-input id="neighbourhood"
+                        class="flex"
+                        name="shipRegion"
+                        autocomplete="shipRegion"
+                        style="margin-right:10px"
+                        value="{{address.neighbourhood}}"
+                        auto-validate
+                        required
+                        always-float-label="[[alwaysFloatLabel]]"
+                        on-change="_addressChanged"
+                        label="Bairro"></paper-input>
+                </div>
+
+                <div class$="{{_cssRow}}">
+
                     <paper-input id="street"
                         class="flex"
                         name="shipAddress"
@@ -154,7 +158,8 @@ Custom property | Description | Default
                         always-float-label="[[alwaysFloatLabel]]"
                         on-change="_addressChanged"
                         label="Rua"></paper-input>
-                    <div class="flex layout horizontal">
+
+                    <div class="layout horizontal">
                         <paper-input class="flex"
                             autocomplete="shipNumber"
                             autocomplete="shipNumber"
@@ -163,6 +168,7 @@ Custom property | Description | Default
                             always-float-label="[[alwaysFloatLabel]]"
                             on-change="_addressChanged"
                             label="Número"></paper-input>
+
                         <paper-input class="flex"
                             autocomplete="shipComplement"
                             autocomplete="shipComplement"
@@ -173,6 +179,7 @@ Custom property | Description | Default
                             label="Complemento"></paper-input>
                     </div>
                 </div>
+
                 <paper-input class="flex"
                     style="margin-right:10px"
                     value="{{address.reference}}"
@@ -188,7 +195,7 @@ Custom property | Description | Default
 
             <template is="dom-if"
                 if="{{!hideMap}}">
-                <div class$="map {{bigScreen}}">
+                <div class$="map {{_container}}">
                     <google-map-search map="{{map}}"
                         query="[[_addressQuery]]"
                         on-google-map-search-results="_onSearchResults">
@@ -295,14 +302,21 @@ Custom property | Description | Default
                     value: ""
                 },
 
+                _cssRow: {
+                    type: String,
+                    computed: '_computeRowOrientation(bigScreen)'
+                },
+
+                _container: {
+                    type: String,
+                    computed: '_computeContainerSize(bigScreen)'
+                },
+
                 _addressQuery: {
                     type: String,
                     computed: '_calculateAddressQuery(address.*)',
                 },
 
-                _shouldShowSideBySide: {
-                    computed: '_computeShouldShowSideBySide(bigScreen)'
-                },
             },
 
 
@@ -364,11 +378,20 @@ Custom property | Description | Default
             /**
              * Check if should show map and address form side by side
              */
-            _computeShouldShowSideBySide: function(bigScreen) {
+            _computeRowOrientation: function(bigScreen) {
                 if (bigScreen) {
-                    return 'bigScreen';
+                    return 'layout horizontal';
+                } else {
+                    return 'layout vertical';
                 }
-                return '';
+            },
+
+            _computeContainerSize: function(bigScreen) {
+                if (bigScreen) {
+                    return 'big-screen';
+                } else {
+                    return '';
+                }
             },
 
             /**
@@ -407,7 +430,7 @@ Custom property | Description | Default
              *
              */
             validate: function() {
-                var isValid = this.address && this.$.zip.validate() && this.address.zip != '' &&
+                var isValid = this.$.zip.validate() && this.address.zip != '' &&
                     this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
                     this.$.street.validate() && this.address.street != '' &&
                     this.address.city != '' &&
