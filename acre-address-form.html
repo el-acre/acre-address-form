@@ -36,6 +36,9 @@ The following custom properties and mixins are available for styling:
 Custom property | Description | Default
 ----------------|-------------|----------
 `--acre-input-container-input` | Mixin to be applied to the paper-dropdown-menu-input-container | {}
+`--acre-address-map` | Mixin to be applied to the map | {}
+`--address-combo-box` | Mixin to be applied to the combobox | {}
+`--acre-address-form` | Mixin to be applied to the form | {}
 
 
 @demo demo/index.html
@@ -58,28 +61,26 @@ Custom property | Description | Default
 
             .address-form {
                 @apply(--layout-vertical);
+                @apply(--acre-address-form);
             }
 
-            .map,
-            .address-form {
-                min-width: 80vw;
-                @apply(--layout-flex);
-                @apply(--layout-self-stretch);
+            .map {
+                @apply(--layout-flex)
             }
 
             google-map {
-                width: 100%;
-                min-height: 360px;
+                height: 360px;
                 @apply(--acre-address-map);
             }
 
             vaadin-combo-box {
+              margin-right: 10px;
                 @apply(--address-combo-box);
             }
         </style>
 
         <div class="layout horizontal wrap">
-            <form class="address-form flex">
+            <form class="address-form">
 
                 <div class="layout horizontal">
 
@@ -174,7 +175,7 @@ Custom property | Description | Default
 
             <template is="dom-if"
                 if="{{!hideMap}}">
-                <div class="map flex">
+                <div class="map">
                     <google-map-search map="{{map}}"
                         query="[[_addressQuery]]"
                         on-google-map-search-results="_onSearchResults">
