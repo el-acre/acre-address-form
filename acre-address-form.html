@@ -15,7 +15,11 @@
 <link rel="import"
     href="../paper-listbox/paper-listbox.html">
 <link rel="import"
+    href="../iron-media-query/iron-media-query.html">
+<link rel="import"
     href="../vaadin-combo-box/vaadin-combo-box.html">
+    <script src="../vanilla-masker.min.js"></script>
+
 
 <!--
 An element providing a form to fill a address.
@@ -68,19 +72,25 @@ Custom property | Description | Default
                 @apply(--layout-flex)
             }
 
+            .bigScreen{
+              width: 50%;
+            }
+
             google-map {
                 height: 360px;
                 @apply(--acre-address-map);
             }
 
             vaadin-combo-box {
-              margin-right: 10px;
+                margin-right: 10px;
                 @apply(--address-combo-box);
             }
         </style>
 
+        <iron-media-query query="min-width: 767px" query-matches="{{bigScreen}}"></iron-media-query>
+
         <div class="layout horizontal wrap">
-            <form class="address-form">
+             <form class$="address-form {{_shouldShowSideBySide}}">
 
                 <div class="layout horizontal">
 
@@ -104,6 +114,7 @@ Custom property | Description | Default
                         name="shipState"
                         autocomplete="shipState"
                         selected-item="{{address.state}}"
+                        value="{{address.state}}"
                         on-selected-item-changed="_addressChanged"
                         items="[[states]]"></vaadin-combo-box>
 
@@ -112,6 +123,7 @@ Custom property | Description | Default
                         name="shipCity"
                         autocomplete="shipCity"
                         selected-item="{{address.city}}"
+                        value="{{address.city}}"
                         on-selected-item-changed="_addressChanged"
                         items="[[cities]]"></vaadin-combo-box>
 
@@ -175,7 +187,7 @@ Custom property | Description | Default
 
             <template is="dom-if"
                 if="{{!hideMap}}">
-                <div class="map">
+                <div class$="map {{bigScreen}}">
                     <google-map-search map="{{map}}"
                         query="[[_addressQuery]]"
                         on-google-map-search-results="_onSearchResults">
@@ -287,7 +299,12 @@ Custom property | Description | Default
                     computed: '_calculateAddressQuery(address.*)',
                 },
 
+                _shouldShowSideBySide: {
+                    computed: '_computeShouldShowSideBySide(bigScreen)'
+                },
             },
+
+
 
             // Element Lifecycle
 
@@ -327,6 +344,10 @@ Custom property | Description | Default
                     (address.base.zip + ' ') +
                     "Brasil";
 
+                this.set("address.city", address.base.city);
+                this.set("address.state", address.base.state);
+
+
                 return result;
             },
 
@@ -337,6 +358,16 @@ Custom property | Description | Default
                     this.set("address.latitude", results[0].latitude);
                     this.set("address.longitude", results[0].longitude);
                 }
+            },
+
+            /**
+            * Check if should show map and address form side by side
+            */
+            _computeShouldShowSideBySide: function(bigScreen){
+                if(bigScreen){
+                    return 'bigScreen';
+                }
+                return '';
             },
 
             /**
