@@ -29,9 +29,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>An example of <code>&lt;acre-address-form&gt;</code>:</p>
     <p>Validate Form!
         <button id="validateBtn">Validate</button>
+        <button id="toggleMap">Toggle map</button>
     </p>
 
-    <acre-address-form id="address-form">
+    <acre-address-form id="address-form" hide-map>
         <paper-input label="TESTE"></paper-input>
     </acre-address-form>
 
@@ -16841,7 +16842,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }]
         }]
 
-    window.addEventListener('WebComponentsReady', function(e) {
+        window.addEventListener('WebComponentsReady', function(e) {
             var addressForm = document.getElementById("address-form");
 
             addressForm.states = states.reduce(function(curr, prev) {
@@ -16870,12 +16871,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         addressForm.cities = [];
                 }
             });
-            
+
             document.querySelector('#validateBtn').addEventListener('click', function() {
-            var isValid = addressForm.validate();
-            alert("valid: " + isValid);
+                var isValid = addressForm.validate();
+                alert("valid: " + isValid);
+            });
+
+            document.querySelector('#toggleMap').addEventListener('click', function() {
+                addressForm.hideMap = false;
+                console.log(addressForm.getMap());
+                console.log("toggle maps");
+            });
+
+
         });
-      });
     </script>
 </body>
 
