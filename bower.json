@@ -11,7 +11,7 @@
     "seed"
   ],
   "main": "acre-address-form.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
+  "license": "",
   "homepage": "https://github.com/victorhugom/acre-address-form/",
   "ignore": [
     "/.*",
