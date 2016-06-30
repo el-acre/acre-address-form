@@ -33,7 +33,7 @@ Example:
     <acre-address-form hide-map>
     </acre-address-form>
 
-Example: 
+Example:
 
     <acre-address-form>
         <paper-input label="Contato (Test)"></paper-input>
@@ -56,403 +56,404 @@ Custom property | Description | Default
 -->
 
 <dom-module id="acre-address-form">
-    <!-- import classes in an element -->
-    <template>
-        <style include="iron-flex iron-flex-alignment" />
-        <style>
-            :host {
-                display: block;
-                box-sizing: border-box;
-            }
+  <!-- import classes in an element -->
+  <template>
+    <style include="iron-flex iron-flex-alignment" />
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
 
-            .container {
-                @apply(--layout-horizontal);
-            }
+      .container {
+        @apply(--layout-horizontal);
+      }
 
-            .address-form {
-                @apply(--layout-vertical);
-                @apply(--acre-address-form);
-            }
+      .address-form {
+        @apply(--layout-vertical);
+        @apply(--acre-address-form);
+      }
 
-            .map {
-                @apply(--layout-flex)
-            }
+      .map {
+        @apply(--layout-flex)
+      }
 
-            .big-screen {
-                width: 50%;
-            }
+      .big-screen {
+        width: 50%;
+      }
 
-            google-map {
-                height: 360px;
-                @apply(--acre-address-map);
-            }
+      google-map {
+        height: 360px;
+        @apply(--acre-address-map);
+      }
 
-            vaadin-combo-box {
-                margin-right: 10px;
-                @apply(--address-combo-box);
-            }
-        </style>
+      vaadin-combo-box {
+        margin-right: 10px;
+        @apply(--address-combo-box);
+      }
+    </style>
 
-        <iron-media-query query="min-width: 767px"
-            query-matches="{{bigScreen}}"></iron-media-query>
+    <iron-media-query query="min-width: 767px"
+        query-matches="{{bigScreen}}"></iron-media-query>
 
-        <div class="layout horizontal wrap">
-            <form class$="address-form {{_container}}">
+    <div class="layout horizontal wrap">
+      <form class$="address-form {{_container}}">
 
-                <div class$="{{_cssRow}}">
+        <div class$="{{_cssRow}}">
 
-                    <zip-input id="zip"
-                        class="flex"
-                        style="margin-right: 10px;"
-                        autocomplete="shipZip"
-                        name="shipZip"
-                        style="margin-right:10px"
-                        minlength="8"
-                        maxlength="8"
-                        auto-validate
-                        required
-                        always-float-label="[[alwaysFloatLabel]]"
-                        on-change="_addressChanged"
-                        label="CEP"
-                        value="{{address.zip}}"></zip-input>
+          <zip-input id="zip"
+              class="flex"
+              style="margin-right: 10px;"
+              autocomplete="shipZip"
+              name="shipZip"
+              style="margin-right:10px"
+              minlength="8"
+              maxlength="8"
+              auto-validate
+              required
+              always-float-label="[[alwaysFloatLabel]]"
+              on-change="_addressChanged"
+              label="CEP"
+              value="{{address.zip}}"></zip-input>
 
-                    <vaadin-combo-box label="Estado"
-                        class="flex"
-                        name="shipState"
-                        autocomplete="shipState"
-                        selected-item="{{address.state}}"
-                        value="{{address.state}}"
-                        on-selected-item-changed="_addressChanged"
-                        items="[[states]]"></vaadin-combo-box>
+          <vaadin-combo-box label="Estado"
+              class="flex"
+              name="shipState"
+              autocomplete="shipState"
+              selected-item="{{address.state}}"
+              value="{{address.state}}"
+              on-selected-item-changed="_addressChanged"
+              items="[[states]]"></vaadin-combo-box>
 
-                    <vaadin-combo-box label="Cidade"
-                        class="flex"
-                        name="shipCity"
-                        autocomplete="shipCity"
-                        selected-item="{{address.city}}"
-                        value="{{address.city}}"
-                        on-selected-item-changed="_addressChanged"
-                        items="[[cities]]"></vaadin-combo-box>
+          <vaadin-combo-box label="Cidade"
+              class="flex"
+              name="shipCity"
+              autocomplete="shipCity"
+              selected-item="{{address.city}}"
+              value="{{address.city}}"
+              on-selected-item-changed="_addressChanged"
+              items="[[cities]]"></vaadin-combo-box>
 
-                </div>
-
-                <div class$="{{_cssRow}}">
-
-                    <paper-input id="neighbourhood"
-                        class="flex"
-                        name="shipRegion"
-                        autocomplete="shipRegion"
-                        style="margin-right:10px"
-                        value="{{address.neighbourhood}}"
-                        auto-validate
-                        required
-                        always-float-label="[[alwaysFloatLabel]]"
-                        on-change="_addressChanged"
-                        label="Bairro"></paper-input>
-                </div>
-
-                <div class$="{{_cssRow}}">
-
-                    <paper-input id="street"
-                        class="flex"
-                        name="shipAddress"
-                        autocomplete="shipAddress"
-                        style="margin-right:10px"
-                        value="{{address.street}}"
-                        auto-validate
-                        required
-                        always-float-label="[[alwaysFloatLabel]]"
-                        on-change="_addressChanged"
-                        label="Rua"></paper-input>
-
-                    <div class="flex layout horizontal">
-                        <paper-input class="flex"
-                            autocomplete="shipNumber"
-                            autocomplete="shipNumber"
-                            style="margin-right:10px"
-                            value="{{address.number}}"
-                            always-float-label="[[alwaysFloatLabel]]"
-                            on-change="_addressChanged"
-                            label="Número"></paper-input>
-
-                        <paper-input class="flex"
-                            autocomplete="shipComplement"
-                            autocomplete="shipComplement"
-                            style="margin-right:10px"
-                            value="{{address.complement}}"
-                            always-float-label="[[alwaysFloatLabel]]"
-                            on-change="_addressChanged"
-                            label="Complemento"></paper-input>
-                    </div>
-                </div>
-
-                <paper-input class="flex"
-                    style="margin-right:10px"
-                    value="{{address.reference}}"
-                    always-float-label="[[alwaysFloatLabel]]"
-                    on-change="_addressChanged"
-                    label="Ponto de Referência"></paper-input>
-
-                <div class="flex"
-                    style="margin-right:10px">
-                    <content></content>
-                </div>
-            </form>
-
-            <template is="dom-if"
-                if="{{!hideMap}}">
-                <div class$="map {{_container}}">
-                    <google-map-search map="{{map}}"
-                        query="[[_addressQuery]]"
-                        on-google-map-search-results="_onSearchResults">
-                    </google-map-search>
-                    <google-map id="googleMap"
-                        map="{{map}}"
-                        latitude="[[address.latitude]]"
-                        longitude="[[address.longitude]]"
-                        zoom="15"
-                        disableZoom="true"
-                        api-key="[[apiKey]]">
-                        <google-map-marker id="marker" draggable="true"
-                            latitude="{{address.latitude}}"
-                            longitude="{{address.longitude}}">
-                        </google-map-marker>
-                    </google-map>
-                </div>
-            </template>
         </div>
-    </template>
 
-    <script>
-        Polymer({
-            is: 'acre-address-form',
+        <div class$="{{_cssRow}}">
 
-            properties: {
+          <paper-input id="neighbourhood"
+              class="flex"
+              name="shipRegion"
+              autocomplete="shipRegion"
+              style="margin-right:10px"
+              value="{{address.neighbourhood}}"
+              auto-validate
+              required
+              always-float-label="[[alwaysFloatLabel]]"
+              on-change="_addressChanged"
+              label="Bairro"></paper-input>
+        </div>
 
-                /**
-                 * The address
-                 *
-                 */
-                address: {
-                    type: Object,
-                    notify: true,
-                    value: function() {
-                        return {
-                            zip: '',
-                            street: '',
-                            address: '',
-                            number: '',
-                            complement: '',
-                            neighbourhood: '',
-                            city: '',
-                            state: '',
-                            reference: '',
-                            latitude: 0,
-                            longitude: 0
-                        }
-                    },
-                },
+        <div class$="{{_cssRow}}">
 
-                /**
-                 * Defines the map visibility
-                 */
-                hideMap: {
-                    type: Boolean,
-                    value: false
-                },
+          <paper-input id="street"
+              class="flex"
+              name="shipAddress"
+              autocomplete="shipAddress"
+              style="margin-right:10px"
+              value="{{address.street}}"
+              auto-validate
+              required
+              always-float-label="[[alwaysFloatLabel]]"
+              on-change="_addressChanged"
+              label="Rua"></paper-input>
 
-                /**
-                 * Says if the address is valid or not
-                 * An address is valid if it has a Zip code, a neighbourhood, a city, a state and a street
-                 */
-                isValid: {
-                    type: Boolean,
-                    value: false,
-                    notify: true,
-                },
+          <div class="flex layout horizontal">
+            <paper-input class="flex"
+                autocomplete="shipNumber"
+                autocomplete="shipNumber"
+                style="margin-right:10px"
+                value="{{address.number}}"
+                always-float-label="[[alwaysFloatLabel]]"
+                on-change="_addressChanged"
+                label="Número"></paper-input>
 
-                /**
-                 * A list of state to shown in the state listbox
-                 */
-                states: {
-                    type: Array,
-                    value: function() {
-                        return [];
-                    }
-                },
+            <paper-input class="flex"
+                autocomplete="shipComplement"
+                autocomplete="shipComplement"
+                style="margin-right:10px"
+                value="{{address.complement}}"
+                always-float-label="[[alwaysFloatLabel]]"
+                on-change="_addressChanged"
+                label="Complemento"></paper-input>
+          </div>
+        </div>
 
-                /**
-                 * A lis of cities to shown in the cities listbox
-                 */
-                cities: {
-                    type: Array,
-                    notify: true,
-                    value: function() {
-                        return [];
-                    }
-                },
+        <paper-input class="flex"
+            style="margin-right:10px"
+            value="{{address.reference}}"
+            always-float-label="[[alwaysFloatLabel]]"
+            on-change="_addressChanged"
+            label="Ponto de Referência"></paper-input>
 
-                /**
-                 * If true show all  input labels
-                 */
-                alwaysFloatLabel: {
-                    type: Boolean,
-                    value: false
-                },
+        <div class="flex"
+            style="margin-right:10px">
+          <content></content>
+        </div>
+      </form>
 
-                /**
-                 * the google maps api key
-                 */
-                apiKey: {
-                    type: String,
-                    value: ""
-                },
+      <template is="dom-if"
+          if="{{!hideMap}}">
+        <div class$="map {{_container}}">
+          <google-map-search map="{{map}}"
+              query="[[_addressQuery]]"
+              on-google-map-search-results="_onSearchResults">
+          </google-map-search>
+          <google-map id="googleMap"
+              map="{{map}}"
+              latitude="[[address.latitude]]"
+              longitude="[[address.longitude]]"
+              zoom="15"
+              disableZoom="true"
+              api-key="[[apiKey]]">
+            <google-map-marker id="marker"
+                draggable="true"
+                latitude="{{address.latitude}}"
+                longitude="{{address.longitude}}">
+            </google-map-marker>
+          </google-map>
+        </div>
+      </template>
+    </div>
+  </template>
 
-                _cssRow: {
-                    type: String,
-                    computed: '_computeRowOrientation(bigScreen)'
-                },
+  <script>
+    Polymer({
+      is: 'acre-address-form',
 
-                _container: {
-                    type: String,
-                    computed: '_computeContainerSize(bigScreen)'
-                },
+      properties: {
 
-                _addressQuery: {
-                    type: String,
-                    computed: '_calculateAddressQuery(address.*)',
-                },
+        /**
+         * The address
+         *
+         */
+        address: {
+          type: Object,
+          notify: true,
+          value: function() {
+            return {
+              zip: '',
+              street: '',
+              address: '',
+              number: '',
+              complement: '',
+              neighbourhood: '',
+              city: '',
+              state: '',
+              reference: '',
+              latitude: 0,
+              longitude: 0
+            }
+          },
+        },
 
-            },
+        /**
+         * Defines the map visibility
+         */
+        hideMap: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Says if the address is valid or not
+         * An address is valid if it has a Zip code, a neighbourhood, a city, a state and a street
+         */
+        isValid: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+
+        /**
+         * A list of state to shown in the state listbox
+         */
+        states: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        },
+
+        /**
+         * A lis of cities to shown in the cities listbox
+         */
+        cities: {
+          type: Array,
+          notify: true,
+          value: function() {
+            return [];
+          }
+        },
+
+        /**
+         * If true show all  input labels
+         */
+        alwaysFloatLabel: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * the google maps api key
+         */
+        apiKey: {
+          type: String,
+          value: ""
+        },
+
+        _cssRow: {
+          type: String,
+          computed: '_computeRowOrientation(bigScreen)'
+        },
+
+        _container: {
+          type: String,
+          computed: '_computeContainerSize(bigScreen)'
+        },
+
+        _addressQuery: {
+          type: String,
+          computed: '_calculateAddressQuery(address.*)',
+        },
+
+      },
 
 
 
-            // Element Lifecycle
+      // Element Lifecycle
 
-            ready: function() {
-                // `ready` is called after all elements have been configured, but
-                // propagates bottom-up. This element's children are ready, but parents
-                // are not.
-                //
-                // This is the point where you should make modifications to the DOM (when
-                // necessary), or kick off any processes the element wants to perform.
-            },
+      ready: function() {
+        // `ready` is called after all elements have been configured, but
+        // propagates bottom-up. This element's children are ready, but parents
+        // are not.
+        //
+        // This is the point where you should make modifications to the DOM (when
+        // necessary), or kick off any processes the element wants to perform.
+      },
 
-            attached: function() {
-                // `attached` fires once the element and its parents have been inserted
-                // into a document.
-                //
-                // This is a good place to perform any work related to your element's
-                // visual state or active behavior (measuring sizes, beginning animations,
-                // loading resources, etc).
-            },
+      attached: function() {
+        // `attached` fires once the element and its parents have been inserted
+        // into a document.
+        //
+        // This is a good place to perform any work related to your element's
+        // visual state or active behavior (measuring sizes, beginning animations,
+        // loading resources, etc).
+      },
 
-            detached: function() {
-                // The analog to `attached`, `detached` fires when the element has been
-                // removed from a document.
-                //
-                // Use this to clean up anything you did in `attached`.
-            },
+      detached: function() {
+        // The analog to `attached`, `detached` fires when the element has been
+        // removed from a document.
+        //
+        // Use this to clean up anything you did in `attached`.
+      },
 
-            //computed properties
-            _calculateAddressQuery: function(address) {
-                var result = (address.base.street || '') + ' ' +
-                    (address.base.number || '') + ' ' +
-                    (address.base.complement || '') + ' ' +
-                    (address.base.neighbourhood || '') + ' ' +
-                    (address.base.city || '') + ' ' +
-                    (address.base.state || '') + ' ' +
-                    (address.base.zip + ' ') +
-                    "Brasil";
+      //computed properties
+      _calculateAddressQuery: function(address) {
+        var result = (address.base.street || '') + ' ' +
+          (address.base.number || '') + ' ' +
+          (address.base.complement || '') + ' ' +
+          (address.base.neighbourhood || '') + ' ' +
+          (address.base.city || '') + ' ' +
+          (address.base.state || '') + ' ' +
+          (address.base.zip + ' ') +
+          "Brasil";
 
-                this.set("address.city", address.base.city);
-                this.set("address.state", address.base.state);
+        this.set("address.city", address.base.city);
+        this.set("address.state", address.base.state);
 
 
-                return result;
-            },
+        return result;
+      },
 
-            // Private behaviors
-            _onSearchResults: function(e) {
-                var results = e.detail;
-                if (results && results.length > 0) {
-                    this.set("address.latitude", results[0].latitude);
-                    this.set("address.longitude", results[0].longitude);
-                }
-            },
+      // Private behaviors
+      _onSearchResults: function(e) {
+        var results = e.detail;
+        if (results && results.length > 0) {
+          this.set("address.latitude", results[0].latitude);
+          this.set("address.longitude", results[0].longitude);
+        }
+      },
 
-            /**
-             * Check if should show map and address form side by side
-             */
-            _computeRowOrientation: function(bigScreen) {
-                if (bigScreen) {
-                    return 'layout horizontal';
-                } else {
-                    return 'layout vertical';
-                }
-            },
+      /**
+       * Check if should show map and address form side by side
+       */
+      _computeRowOrientation: function(bigScreen) {
+        if (bigScreen) {
+          return 'layout horizontal';
+        } else {
+          return 'layout vertical';
+        }
+      },
 
-            _computeContainerSize: function(bigScreen) {
-                if (bigScreen) {
-                    return 'big-screen';
-                } else {
-                    return '';
-                }
-            },
+      _computeContainerSize: function(bigScreen) {
+        if (bigScreen) {
+          return 'big-screen';
+        } else {
+          return '';
+        }
+      },
 
-            /**
-             * The `ac-address-is-valid` event is fired when the address becomes valid
-             *
-             * @event ac-address-is-valid
-             * @detail {{address: address}}
-             */
+      /**
+       * The `ac-address-is-valid` event is fired when the address becomes valid
+       *
+       * @event ac-address-is-valid
+       * @detail {{address: address}}
+       */
 
-            /**
-             * The `ac-address-changed` event is fired whenever an property inside the address object changes
-             *
-             * @event ac-address-changed
-             * @detail {{address: address}}
-             */
-            _addressChanged: function(e) {
-                this.fire("ac-address-changed", {
-                    address: this.address
-                });
-
-                var isValid = this.validate();
-
-                if (isValid && this.isValid != isValid) {
-                    this.set("isValid", true);
-                    this.fire("ac-address-is-valid", true);
-                } else if (!isValid) {
-                    this.set("isValid", false);
-                }
-            },
-
-            /** Events */
-
-            /**
-             * Validate()
-             * validate the data highlighting the errors!
-             *
-             */
-            validate: function() {
-                var isValid = this.$.zip.validate() && this.address.zip != '' &&
-                    this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
-                    this.$.street.validate() && this.address.street != '' &&
-                    this.address.city != '' &&
-                    this.address.state != '';
-
-                return isValid;
-            },
-
-            /**
-             * getMap()
-             * Get the google map instance
-             * see `https://elements.polymer-project.org/elements/google-map`
-             */
-            getMap: function() {
-                return this.$$("google-map");
-            },
+      /**
+       * The `ac-address-changed` event is fired whenever an property inside the address object changes
+       *
+       * @event ac-address-changed
+       * @detail {{address: address}}
+       */
+      _addressChanged: function(e) {
+        this.fire("ac-address-changed", {
+          address: this.address
         });
-    </script>
+
+        var isValid = this.validate();
+
+        if (isValid && this.isValid != isValid) {
+          this.set("isValid", true);
+          this.fire("ac-address-is-valid", true);
+        } else if (!isValid) {
+          this.set("isValid", false);
+        }
+      },
+
+      /** Events */
+
+      /**
+       * Validate()
+       * validate the data highlighting the errors!
+       *
+       */
+      validate: function() {
+        var isValid = this.$.zip.validate() && this.address.zip != '' &&
+          this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
+          this.$.street.validate() && this.address.street != '' &&
+          this.address.city != '' &&
+          this.address.state != '';
+
+        return isValid;
+      },
+
+      /**
+       * getMap()
+       * Get the google map instance
+       * see `https://elements.polymer-project.org/elements/google-map`
+       */
+      getMap: function() {
+        return this.$$("google-map");
+      },
+    });
+  </script>
 </dom-module>
