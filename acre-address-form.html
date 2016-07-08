@@ -96,7 +96,7 @@ Custom property | Description | Default
     <iron-media-query query="min-width: 767px"
         query-matches="{{bigScreen}}"></iron-media-query>
 
-    <div class="layout horizontal wrap">
+    <div class$="wrap {{_cssRow}}">
       <form class$="address-form {{_container}}">
 
         <div class$="{{_cssRow}}">
@@ -165,9 +165,8 @@ Custom property | Description | Default
               on-change="_addressChanged"
               label="Rua"></paper-input>
 
-          <div class="flex layout horizontal">
+          <div class$="{{_addressRow}}">
             <paper-input class="flex"
-                autocomplete="shipNumber"
                 autocomplete="shipNumber"
                 style="margin-right:10px"
                 value="{{address.number}}"
@@ -177,7 +176,6 @@ Custom property | Description | Default
 
             <paper-input class="flex"
                 autocomplete="shipComplement"
-                autocomplete="shipComplement"
                 style="margin-right:10px"
                 value="{{address.complement}}"
                 always-float-label="[[alwaysFloatLabel]]"
@@ -186,12 +184,14 @@ Custom property | Description | Default
           </div>
         </div>
 
-        <paper-input class="flex"
-            style="margin-right:10px"
-            value="{{address.reference}}"
-            always-float-label="[[alwaysFloatLabel]]"
-            on-change="_addressChanged"
-            label="Ponto de Referência"></paper-input>
+        <div class$="{{_cssRow}}">
+          <paper-input class="flex"
+              style="margin-right:10px"
+              value="{{address.reference}}"
+              always-float-label="[[alwaysFloatLabel]]"
+              on-change="_addressChanged"
+              label="Ponto de Referência"></paper-input>
+        </div>
 
         <div class="flex"
             style="margin-right:10px">
@@ -309,14 +309,19 @@ Custom property | Description | Default
           value: ""
         },
 
+        _container: {
+          type: String,
+          computed: '_computeContainerSize(bigScreen)'
+        },
+
         _cssRow: {
           type: String,
           computed: '_computeRowOrientation(bigScreen)'
         },
 
-        _container: {
+        _addressRow: {
           type: String,
-          computed: '_computeContainerSize(bigScreen)'
+          computed: '_computeAddressRowSize(bigScreen)'
         },
 
         _addressQuery: {
@@ -390,6 +395,14 @@ Custom property | Description | Default
           return 'layout horizontal';
         } else {
           return 'layout vertical';
+        }
+      },
+
+      _computeAddressRowSize: function(bigScreen) {
+        if (bigScreen) {
+          return 'flex layout horizontal';
+        } else {
+          return '';
         }
       },
 
