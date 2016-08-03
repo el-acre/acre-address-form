@@ -1,26 +1,25 @@
 <link rel="import"
-    href="../polymer/polymer.html">
+      href="../polymer/polymer.html">
 <link rel="import"
-    href="../iron-flex-layout/iron-flex-layout-classes.html">
+      href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import"
-    href="../paper-item/paper-item.html">
+      href="../paper-item/paper-item.html">
 <link rel="import"
-    href="../paper-input/paper-input.html">
+      href="../paper-input/paper-input.html">
 <link rel="import"
-    href="../google-map/google-map-search.html">
+      href="../google-map/google-map-search.html">
 <link rel="import"
-    href="../google-map/google-map.html">
+      href="../google-map/google-map.html">
 <link rel="import"
-    href="../paper-dropdown-menu/paper-dropdown-menu.html">
+      href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import"
-    href="../paper-listbox/paper-listbox.html">
+      href="../paper-listbox/paper-listbox.html">
 <link rel="import"
-    href="../iron-media-query/iron-media-query.html">
+      href="../iron-media-query/iron-media-query.html">
 <link rel="import"
-    href="../vaadin-combo-box/vaadin-combo-box.html">
+      href="../vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import"
-    href="zip-input.html">
-
+      href="zip-input.html">
 <!--
 An element providing a form to fill a address.
 
@@ -54,177 +53,159 @@ Custom property | Description | Default
 @demo demo/index.html
 @hero hero.svg
 -->
-
 <dom-module id="acre-address-form">
-  <!-- import classes in an element -->
-  <template>
-    <style include="iron-flex iron-flex-alignment" />
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
+    <!-- import classes in an element -->
+    <template>
+        <style include="iron-flex iron-flex-alignment" />
+        <style>
+            :host {
+                display: block;
+                box-sizing: border-box;
+            }
 
-      .container {
-        @apply(--layout-horizontal);
-      }
+            .container {
+                @apply(--layout-horizontal);
+            }
 
-      .address-form {
-        @apply(--layout-vertical);
-        @apply(--acre-address-form);
-      }
+            .address-form {
+                @apply(--layout-vertical);
+                @apply(--acre-address-form);
+            }
 
-      .map {
-        @apply(--layout-flex)
-      }
+            .map {
+                @apply(--layout-flex)
+            }
 
-      .big-screen {
-        width: 50%;
-      }
+            .big-screen {
+                width: 50%;
+            }
 
-      google-map {
-        height: 360px;
-        @apply(--acre-address-map);
-      }
+            google-map {
+                height: 360px;
+                @apply(--acre-address-map);
+            }
 
-      vaadin-combo-box {
-        margin-right: 10px;
-        @apply(--address-combo-box);
-      }
-    </style>
-
-    <iron-media-query query="min-width: 767px"
-        query-matches="{{bigScreen}}"></iron-media-query>
-
-    <div class$="wrap {{_cssRow}}">
-      <form class$="address-form {{_container}}">
-
-        <div class$="{{_cssRow}}">
-
-          <zip-input id="zip"
-              class="flex"
-              style="margin-right: 10px;"
-              autocomplete="shipZip"
-              name="shipZip"
-              style="margin-right:10px"
-              minlength="8"
-              maxlength="8"
-              auto-validate
-              required
-              always-float-label="[[alwaysFloatLabel]]"
-              on-change="_addressChanged"
-              label="CEP"
-              value="{{address.zip}}"></zip-input>
-
-          <vaadin-combo-box label="Estado"
-              class="flex"
-              name="shipState"
-              autocomplete="shipState"
-              selected-item="{{address.state}}"
-              value="{{address.state}}"
-              on-selected-item-changed="_addressChanged"
-              items="[[states]]"></vaadin-combo-box>
-
-          <vaadin-combo-box label="Cidade"
-              class="flex"
-              name="shipCity"
-              autocomplete="shipCity"
-              selected-item="{{address.city}}"
-              value="{{address.city}}"
-              on-selected-item-changed="_addressChanged"
-              items="[[cities]]"></vaadin-combo-box>
-
+            vaadin-combo-box {
+                margin-right: 10px;
+                @apply(--address-combo-box);
+            }
+        </style>
+        <iron-media-query query="min-width: 767px"
+                          query-matches="{{bigScreen}}"></iron-media-query>
+        <div class$="wrap {{_cssRow}}">
+            <form class$="address-form {{_container}}">
+                <div class$="{{_cssRow}}">
+                    <zip-input id="zip"
+                               class="flex"
+                               style="margin-right: 10px;"
+                               autocomplete="shipZip"
+                               name="shipZip"
+                               style="margin-right:10px"
+                               minlength="8"
+                               maxlength="8"
+                               auto-validate
+                               required
+                               always-float-label="[[alwaysFloatLabel]]"
+                               on-change="_addressChanged"
+                               label="CEP"
+                               value="{{address.zip}}"></zip-input>
+                    <vaadin-combo-box label="Estado"
+                                      class="flex"
+                                      name="shipState"
+                                      autocomplete="shipState"
+                                      selected-item="{{address.state}}"
+                                      value="{{address.state}}"
+                                      on-selected-item-changed="_addressChanged"
+                                      items="[[states]]"></vaadin-combo-box>
+                    <vaadin-combo-box label="Cidade"
+                                      class="flex"
+                                      name="shipCity"
+                                      autocomplete="shipCity"
+                                      selected-item="{{address.city}}"
+                                      value="{{address.city}}"
+                                      on-selected-item-changed="_addressChanged"
+                                      items="[[cities]]"></vaadin-combo-box>
+                </div>
+                <div class$="{{_cssRow}}">
+                    <paper-input id="neighbourhood"
+                                 class="flex"
+                                 name="shipRegion"
+                                 autocomplete="shipRegion"
+                                 style="margin-right:10px"
+                                 value="{{address.neighbourhood}}"
+                                 auto-validate
+                                 required
+                                 always-float-label="[[alwaysFloatLabel]]"
+                                 on-change="_addressChanged"
+                                 label="Bairro"></paper-input>
+                </div>
+                <div class$="{{_cssRow}}">
+                    <paper-input id="street"
+                                 class="flex"
+                                 name="shipAddress"
+                                 autocomplete="shipAddress"
+                                 style="margin-right:10px"
+                                 value="{{address.street}}"
+                                 auto-validate
+                                 required
+                                 always-float-label="[[alwaysFloatLabel]]"
+                                 on-change="_addressChanged"
+                                 label="Rua"></paper-input>
+                    <div class$="{{_addressRow}}">
+                        <paper-input class="flex"
+                                     autocomplete="shipNumber"
+                                     style="margin-right:10px"
+                                     value="{{address.number}}"
+                                     always-float-label="[[alwaysFloatLabel]]"
+                                     on-change="_addressChanged"
+                                     label="Número"></paper-input>
+                        <paper-input class="flex"
+                                     autocomplete="shipComplement"
+                                     style="margin-right:10px"
+                                     value="{{address.complement}}"
+                                     always-float-label="[[alwaysFloatLabel]]"
+                                     on-change="_addressChanged"
+                                     label="Complemento"></paper-input>
+                    </div>
+                </div>
+                <div class$="{{_cssRow}}">
+                    <paper-input class="flex"
+                                 style="margin-right:10px"
+                                 value="{{address.reference}}"
+                                 always-float-label="[[alwaysFloatLabel]]"
+                                 on-change="_addressChanged"
+                                 label="Ponto de Referência"></paper-input>
+                </div>
+                <div class="flex"
+                     style="margin-right:10px">
+                    <content></content>
+                </div>
+            </form>
+            <template is="dom-if"
+                      if="{{!hideMap}}">
+                <div class$="map {{_container}}">
+                    <google-map-search map="{{map}}"
+                                       query="[[_mapQueryAddress]]"
+                                       on-google-map-search-results="_onSearchResults">
+                    </google-map-search>
+                    <google-map id="googleMap"
+                                map="{{map}}"
+                                latitude="[[address.latitude]]"
+                                longitude="[[address.longitude]]"
+                                zoom="15"
+                                disableZoom="true"
+                                api-key="[[apiKey]]">
+                        <google-map-marker id="marker"
+                                           draggable="true"
+                                           latitude="{{address.latitude}}"
+                                           longitude="{{address.longitude}}">
+                        </google-map-marker>
+                    </google-map>
+                </div>
+            </template>
         </div>
-
-        <div class$="{{_cssRow}}">
-
-          <paper-input id="neighbourhood"
-              class="flex"
-              name="shipRegion"
-              autocomplete="shipRegion"
-              style="margin-right:10px"
-              value="{{address.neighbourhood}}"
-              auto-validate
-              required
-              always-float-label="[[alwaysFloatLabel]]"
-              on-change="_addressChanged"
-              label="Bairro"></paper-input>
-        </div>
-
-        <div class$="{{_cssRow}}">
-
-          <paper-input id="street"
-              class="flex"
-              name="shipAddress"
-              autocomplete="shipAddress"
-              style="margin-right:10px"
-              value="{{address.street}}"
-              auto-validate
-              required
-              always-float-label="[[alwaysFloatLabel]]"
-              on-change="_addressChanged"
-              label="Rua"></paper-input>
-
-          <div class$="{{_addressRow}}">
-            <paper-input class="flex"
-                autocomplete="shipNumber"
-                style="margin-right:10px"
-                value="{{address.number}}"
-                always-float-label="[[alwaysFloatLabel]]"
-                on-change="_addressChanged"
-                label="Número"></paper-input>
-
-            <paper-input class="flex"
-                autocomplete="shipComplement"
-                style="margin-right:10px"
-                value="{{address.complement}}"
-                always-float-label="[[alwaysFloatLabel]]"
-                on-change="_addressChanged"
-                label="Complemento"></paper-input>
-          </div>
-        </div>
-
-        <div class$="{{_cssRow}}">
-          <paper-input class="flex"
-              style="margin-right:10px"
-              value="{{address.reference}}"
-              always-float-label="[[alwaysFloatLabel]]"
-              on-change="_addressChanged"
-              label="Ponto de Referência"></paper-input>
-        </div>
-
-        <div class="flex"
-            style="margin-right:10px">
-          <content></content>
-        </div>
-      </form>
-
-      <template is="dom-if"
-          if="{{!hideMap}}">
-        <div class$="map {{_container}}">
-          <google-map-search map="{{map}}"
-              query="[[_addressQuery]]"
-              on-google-map-search-results="_onSearchResults">
-          </google-map-search>
-          <google-map id="googleMap"
-              map="{{map}}"
-              latitude="[[address.latitude]]"
-              longitude="[[address.longitude]]"
-              zoom="15"
-              disableZoom="true"
-              api-key="[[apiKey]]">
-            <google-map-marker id="marker"
-                draggable="true"
-                latitude="{{address.latitude}}"
-                longitude="{{address.longitude}}">
-            </google-map-marker>
-          </google-map>
-        </div>
-      </template>
-    </div>
-  </template>
-
-  <script>
+    </template>
+    <script>
     Polymer({
       is: 'acre-address-form',
 
@@ -308,6 +289,11 @@ Custom property | Description | Default
           type: String,
           value: ""
         },
+          
+        _mapQueryAddress:{
+            type: String,
+            notify: true,
+        },
 
         _container: {
           type: String,
@@ -323,13 +309,9 @@ Custom property | Description | Default
           type: String,
           computed: '_computeAddressRowSize(bigScreen)'
         },
-
-        _addressQuery: {
-          type: String,
-          computed: '_calculateAddressQuery(address.*)',
-        },
-
       },
+
+      observers: ['_calculateAddressQuery(address.*)'],
 
 
 
@@ -361,21 +343,32 @@ Custom property | Description | Default
       },
 
       //computed properties
-      _calculateAddressQuery: function(address) {
-        var result = (address.base.street || '') + ' ' +
-          (address.base.number || '') + ' ' +
-          (address.base.complement || '') + ' ' +
-          (address.base.neighbourhood || '') + ' ' +
-          (address.base.city || '') + ' ' +
-          (address.base.state || '') + ' ' +
-          (address.base.zip + ' ') +
-          "Brasil";
+      _calculateAddressQuery: function (address) {
+
+          if (this.mapQueryTimeout) {
+              this.mapQueryTimeout = clearTimeout(this.mapQueryTimeout);
+          }
+        
+        var _this = this;
+        this.mapQueryTimeout = setTimeout(function(){
+          _this._setMapQueryAddress(_this);
+        }, 500);
 
         this.set("address.city", address.base.city);
         this.set("address.state", address.base.state);
+      },
 
+      _setMapQueryAddress: function(_this){
+          var result = (_this.address.street || '') + ' ' +
+                        (_this.address.number || '') + ' ' +
+                        (_this.address.complement || '') + ' ' +
+                        (_this.address.neighbourhood || '') + ' ' +
+                        (_this.address.city || '') + ' ' +
+                        (_this.address.state || '') + ' ' +
+                        (_this.address.zip + ' ') +
+                        "Brasil";
 
-        return result;
+          _this.set('_mapQueryAddress', result);
       },
 
       // Private behaviors
@@ -468,5 +461,5 @@ Custom property | Description | Default
         return this.$$("google-map");
       },
     });
-  </script>
+    </script>
 </dom-module>
