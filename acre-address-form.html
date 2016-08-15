@@ -153,6 +153,9 @@ Custom property | Description | Default
                                  label="Rua"></paper-input>
                     <div class$="{{_addressRow}}">
                         <paper-input class="flex"
+                                     id="number"
+                                     auto-validate
+                                     required
                                      autocomplete="shipNumber"
                                      style="margin-right:10px"
                                      value="{{address.number}}"
@@ -289,7 +292,7 @@ Custom property | Description | Default
           type: String,
           value: ""
         },
-          
+
         _mapQueryAddress:{
             type: String,
             notify: true,
@@ -348,7 +351,7 @@ Custom property | Description | Default
           if (this.mapQueryTimeout) {
               this.mapQueryTimeout = clearTimeout(this.mapQueryTimeout);
           }
-        
+
         var _this = this;
         this.mapQueryTimeout = setTimeout(function(){
           _this._setMapQueryAddress(_this);
@@ -447,7 +450,8 @@ Custom property | Description | Default
           this.$.neighbourhood.validate() && this.address.neighbourhood != '' &&
           this.$.street.validate() && this.address.street != '' &&
           this.address.city != '' &&
-          this.address.state != '';
+          this.address.state != '' &&
+          this.address.number != '' && this.$.number.validate();
 
         return isValid;
       },
