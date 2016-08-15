@@ -451,7 +451,7 @@ Custom property | Description | Default
           this.$.street.validate() && this.address.street != '' &&
           this.address.city != '' &&
           this.address.state != '' &&
-          this.address.number != '' && this.$.number.validate();
+          this.$.number.validate() && this.address.number != '';
 
         return isValid;
       },
